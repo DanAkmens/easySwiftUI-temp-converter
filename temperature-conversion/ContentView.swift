@@ -15,8 +15,8 @@ struct ContentView: View {
     var toggleBetween = ["Fahrenheit", "Celsium"]
 
     @State private var temperatureOutside = 0
-
     @State private var selectedConverter = "Celsium"
+    @FocusState private var tempOutsideIsFocused: Bool
 
     private var switchOutput: String {
         if selectedConverter == "Celsium" {
@@ -47,7 +47,7 @@ struct ContentView: View {
                     Section(sectionName) {
                         TextField("Temperature", value: $temperatureOutside, format: .number)
                             .keyboardType(.decimalPad)
-                        
+                            .focused($tempOutsideIsFocused)
                     }
 
                     Section(outsideCelsium) {
@@ -63,7 +63,14 @@ struct ContentView: View {
                     }
 
                 }.navigationTitle("Temperature Conversion")
-                    .navigationBarTitleDisplayMode(.inline)
+                 .navigationBarTitleDisplayMode(.inline)
+                 .toolbar{
+                     if tempOutsideIsFocused {
+                         Button("Done") {
+                             tempOutsideIsFocused = false
+                         }.foregroundStyle(Color.indigo)
+                     }
+                 }
             }
         }
     }
