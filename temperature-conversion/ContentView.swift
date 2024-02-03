@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+
+    var sectionName = "Enter your temperature"
+    var outsideCelsium = "Choose your input"
+
     var toggleBetween = ["Fahrenheit", "Celsium"]
-    
+
     @State private var temperatureOutside = 0
-    @State private var tempCelsius = 0
-    @State private var tempFahrenheits = 0
+
     @State private var selectedConverter = "Celsium"
-    
+
     private var switchOutput: String {
         if selectedConverter == "Celsium" {
             return "Fahrenheit"
@@ -23,11 +25,7 @@ struct ContentView: View {
             return "Celsium"
         }
     }
-    
-    
-    var sectionName = "Enter your temperature"
-    var outsideCelsium = "Choose your input"
-    
+
     var convertedTemp: Double {
         if selectedConverter == "Fahrenheit" {
             let userTemperature = Double(temperatureOutside)
@@ -42,6 +40,7 @@ struct ContentView: View {
             return userFahrenheit
         }
     }
+    
         var body: some View {
             NavigationStack {
                 Form {
@@ -50,7 +49,7 @@ struct ContentView: View {
                             .keyboardType(.decimalPad)
                         
                     }
-                    
+
                     Section(outsideCelsium) {
                         Picker("Celsium or Fahrenheit", selection: $selectedConverter) {
                             ForEach(toggleBetween, id: \.self) {
@@ -58,12 +57,11 @@ struct ContentView: View {
                             }
                         }.pickerStyle(.navigationLink)
                     }
-                    
+
                     Section("The temperature in \(selectedConverter)") {
                         Text("The temperature is: \(String(format: "%.1f", convertedTemp)) in \(switchOutput)")
                     }
-                    
-                    
+
                 }.navigationTitle("Temperature Conversion")
                     .navigationBarTitleDisplayMode(.inline)
             }
